@@ -12,6 +12,7 @@ error() {
   echo "[sync-ai] ERROR: $*" >&2
   exit 1
 }
+warn() { echo "[WARN] $1" >&2; }
 
 # Check for uncommitted changes
 if ! git diff-index --quiet HEAD --; then
@@ -26,7 +27,7 @@ fi
 log "Fetching updates from origin..."
 git fetch origin
 
-log "Rebasing local changes on top of origin/master..."
+log "Rebasing local changes on top of origin/main..."
 if ! git rebase origin/main; then
   error "Rebase failed. Please resolve conflicts manually in $REPO_DIR"
 fi
