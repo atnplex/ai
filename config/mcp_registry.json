@@ -57,11 +57,7 @@
         "/usr/bin/node",
         "/atn/.gemini/antigravity/mcp/node_modules/@cloudflare/mcp-server-cloudflare/dist/index.js",
         "run"
-      ],
-      "env": {
-        "XDG_CONFIG_HOME": "/atn/.gemini/antigravity/.config",
-        "WRANGLER_CONFIG": "/atn/.gemini/antigravity/.config/wrangler"
-      }
+      ]
     },
     "context7": {
       "command": "/usr/bin/node",

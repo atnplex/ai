@@ -92,6 +92,12 @@ main() {
   # Verify required secrets are present
   export_mcp_secrets "$@"
 
+  # Hardcode Cloudflare paths to ensure consistency
+  if [[ "$*" == *"cloudflare"* ]]; then
+    export XDG_CONFIG_HOME="/atn/.gemini/antigravity/.config"
+    export WRANGLER_CONFIG="/atn/.gemini/antigravity/.config/wrangler"
+  fi
+
   exec "$@"
 }
 

@@ -1,8 +1,18 @@
 # Operational Rule: MCP Management
 
 > **ID**: `operational-mcp-management`
-> **Version**: 1.0.0
+> **Version**: 1.1.0
 > **Status**: Active
+
+## 0. Synchronization First
+
+At the start of every session (or when instructed), agents MUST run:
+
+```bash
+/atn/ai/scripts/sync_ai.sh
+```
+
+This ensures the local agent is using the latest configuration from the `ai` repository.
 
 ## 1. Source of Truth
 
