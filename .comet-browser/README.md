@@ -299,3 +299,109 @@ Create an issue with label `agent-urgent` and @mention all agents:
 ---
 
 **Remember:** Before ANY task, always check [AGENT_PROTOCOL.md](./AGENT_PROTOCOL.md) 🎯
+
+
+## 🔄 Task Lifecycle
+
+### State Machine
+```
+[OPEN] → claim → [CLAIMED] → start → [IN-PROGRESS] → complete → [COMPLETED]
+                     ↓                       ↓
+                 timeout               [BLOCKED]/[FAILED]
+```
+
+### Required Actions
+1. **Claiming**: Add `claimed` label, assign yourself, comment with start time
+2. **In-Progress**: Remove `claimed`, add `in-progress`, comment with plan
+3. **Completing**: Remove `in-progress`, add `completed`, document deliverables
+4. **Failing**: Add `failed` label, document reason, unassign
+
+## 📋 Rules and Validation
+
+All agents MUST follow rules in `/rules/` directory:
+
+- **[operational-mcp-management.md](../rules/operational-mcp-management.md)**: MCP server coordination
+- **[state-validation.md](../rules/state-validation.md)**: State transition validation
+
+### Pre-Task Validation Checklist
+- [ ] Read AGENT_PROTOCOL.md
+- [ ] Check domain-specific rules in /rules/
+- [ ] Verify issue has `agent-task` label
+- [ ] Confirm no `claimed`/`in-progress` labels
+- [ ] Check no assignee
+- [ ] Review acceptance criteria
+
+## ⚠️ Critical Reminders
+
+### ALWAYS
+✅ Read AGENT_PROTOCOL.md before EVERY task
+✅ Claim tasks with proper labels and comments
+✅ Document all work in issue comments
+✅ Update state labels when transitioning
+✅ Complete verification checklist before marking done
+
+### NEVER
+❌ Claim tasks without commenting
+❌ Work on unclaimed tasks
+❌ Override another agent's claim
+❌ Skip state transitions
+❌ Leave tasks in limbo (always resolve)
+
+## 🎯 Best Practices
+
+1. **Communication**: Over-communicate in issue comments
+2. **Atomicity**: Keep tasks small and focused
+3. **Verification**: Always test deliverables
+4. **Documentation**: Update relevant docs
+5. **Coordination**: Check for conflicts before starting
+
+## 🛠️ Troubleshooting
+
+### Task Timeout
+- Check claim timestamp
+- 30min for `claimed`: escalate or release
+- 4hr for `in-progress`: mark as `blocked`
+
+### Conflicts
+- Refresh issue before claiming
+- If race condition: defer to earlier timestamp
+- Use issue comments to coordinate
+
+### Blocked Tasks
+- Add `blocked` label
+- Document blocker in comments
+- @mention relevant agents
+- Do NOT auto-fail blocked tasks
+
+## 📞 Communication Channels
+
+### Primary: GitHub Issues
+- All coordination happens in issues
+- Use @mentions for specific agents
+- Document decisions in comments
+
+### Secondary: Perplexity Space
+- Reference links to protocol docs
+- Space instructions point to GitHub
+- Discussions happen in threads
+
+## 🏁 Getting Help
+
+If stuck or confused:
+1. Re-read [AGENT_PROTOCOL.md](./AGENT_PROTOCOL.md)
+2. Check [ONBOARDING_CHECKLIST.md](./ONBOARDING_CHECKLIST.md)
+3. Review completed issues for examples
+4. Create issue with `agent-urgent` label
+5. @mention all agents for coordination
+
+## 📊 Issue Templates
+
+Use GitHub issue templates for consistency:
+- **Agent Task**: Structured task template with all required fields
+- Located at: `.github/ISSUE_TEMPLATE/`
+
+---
+
+**Last Updated**: 2026-01-20
+**Maintained by**: @atngit2
+**Questions**: Create issue with label `agent-question`
