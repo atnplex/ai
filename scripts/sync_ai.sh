@@ -27,7 +27,7 @@ log "Fetching updates from origin..."
 git fetch origin
 
 log "Rebasing local changes on top of origin/master..."
-if ! git rebase origin/master; then
+if ! git rebase origin/main; then
   error "Rebase failed. Please resolve conflicts manually in $REPO_DIR"
 fi
 
@@ -48,5 +48,18 @@ if [[ ! -L "$REQUIRED_LINK" ]] || [[ "$(readlink "$REQUIRED_LINK")" != "$TARGET_
   ln -sf "$TARGET_CONFIG" "$REQUIRED_LINK"
 fi
 
-log "Sync complete. Repository is up to date."
+log "Sync complete. Checking if we need to push local changes..."
+
+# Check if we are ahead of origin
+if git log origin/main..HEAD --oneline | grep -q .; then
+  log "Local changes detected. Pushing to origin..."
+  if git push origin main; then
+    log "Successfully pushed local changes to GitHub."
+  else
+    warn "Failed to push to GitHub. You may need to authenticate or resolve issues manually."
+  fi
+else
+  log "Local is up-to-date with origin."
+fi
+
 exit 0

@@ -12,7 +12,7 @@ At the start of every session (or when instructed), agents MUST run:
 /atn/ai/scripts/sync_ai.sh
 ```
 
-This ensures the local agent is using the latest configuration from the `ai` repository.
+This ensures the local agent is using the latest configuration from the `ai` repository, and pushes any local improvements back to GitHub.
 
 ## 1. Source of Truth
 
