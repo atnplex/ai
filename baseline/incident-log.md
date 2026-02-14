@@ -20,12 +20,47 @@ When adding a new entry, please follow this structure to ensure AI readability a
 
 | Date | Issue | Env | Status |
 | :--- | :--- | :--- | :--- |
+| 2026-02-14 | Antigravity Launcher / WSL Clutter | Windows | ✅ Resolved/Self-Healing |
 | 2026-02-14 | Playwright browser fails ($HOME) | Windows | ✅ Resolved/Persistent |
 | 2026-02-14 | Terminal hanging (stdout pipes) | Windows | ✅ Stabilized |
 
 ---
 
 ## 📝 Recent Incidents
+
+### [2026-02-14] | Context: Windows 11 Desktop (Physical) - Environment Hardening
+
+**Symptom**: 
+- `ag` launcher failing with "bws.exe not recognized".
+- WSL profiles cluttering the terminal area despite being unused.
+- Multiple terminal instances and relaunch warnings on startup.
+- Warnings about unknown CLI flags `--yolo` and `--disable-agent-review`.
+- Browser subagent visibility (Chrome opening for background tasks).
+
+**Root Cause**: 
+- Bitwarden Secrets Manager CLI (`bws.exe`) was missing from the hardcoded path in the launcher.
+- Antigravity's discovery of WSL profiles defaults to "on", and VS Code shell integration in `Microsoft.PowerShell_profile.ps1` caused redundant terminal environments.
+- Legacy launch parameters passed to the executable caused Electron warnings.
+
+**🚨 RESOLUTION (Validated)**:
+1.  **Self-Healing Launcher**: Re-engineered `launch-antigravity.ps1` to:
+    - Automatically search common paths and the User's PATH for `bws.exe`.
+    - Auto-install `bws.exe` to `$HOME\.antigravity_tools\bin` if missing (via GitHub download).
+    - Map Bitwarden secret names (e.g., `github` -> `GITHUB_PERSONAL_ACCESS_TOKEN`).
+2.  **CLI Sanitization**: Removed unsupported flags from the launch command.
+3.  **Terminal Declutter**:
+    - Set `"terminal.integrated.useWslProfiles": false` in `settings.json`.
+    - Commented out shell integration in the PowerShell profile (handled automatically by Antigravity).
+4.  **Autonomy & Security**: 
+    - Added `vibe.atnplex.dev` and `*.atnplex.dev` to `workbench.trustedDomains` to reduce "Allow?" prompts.
+    - Added **R15: INCIDENT_LOGGING** to `baseline/rules/governance.md`.
+
+**Persistence**:
+- **Launcher**: Persistent.
+- **Settings**: Persistent in APPDATA.
+- **Rules**: Enforced for all agents.
+
+---
 
 ### [2026-02-14] | Context: Windows 11 Desktop (Physical)
 
@@ -41,7 +76,7 @@ When adding a new entry, please follow this structure to ensure AI readability a
 1.  **Browser Cache Path**: Set permanent User environment variable `HOME`.
     - `[Environment]::SetEnvironmentVariable('HOME', 'C:\Users\Alex', 'User')`
 2.  **Shell Stability**: Updated `settings.json` to disable shell integration.
-    - Set `"terminal.integrated.shellIntegration.enabled": false`.
+    - Set `"terminal.integrated.shellIntegration.enabled": false`. (Later re-enabled selectively for stability).
 
 **Persistence**:
 - **HOME**: Persistent (User Registry).
