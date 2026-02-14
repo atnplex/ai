@@ -1,8 +1,14 @@
 # Agent Coordination Protocol
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-13  
+**Version:** 1.0.0  
+**Last Updated:** 2026-02-14  
 **Status:** ACTIVE
+
+## Protocol Version
+
+Current version: **1.0.0** — see [PROTOCOL_VERSION](../PROTOCOL_VERSION) and [manifest.json](../manifest.json) at repo root.
+
+All agents must check `PROTOCOL_VERSION` at session start. If the version has changed since your last session, re-read this document and `manifest.json`.
 
 ## Overview
 
@@ -263,4 +269,5 @@ is:open label:agent-task label:review
 
 ## Changelog
 
+- **2026-02-14**: Added Protocol Version section, v1.0.0
 - **2026-02-13**: Initial protocol v1.0 created
