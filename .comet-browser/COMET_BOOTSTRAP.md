@@ -18,6 +18,29 @@ If you are operating through **Comet Browser** (not the Perplexity web UI), you 
 
 ### Before EVERY browser session:
 
+**0. Verify Protocol Version**
+```
+github.com/atnplex/ai/blob/main/manifest.json
+```
+- Check `protocol_version` field
+- Ensure you're aligned with current protocol version
+
+**0b. Read manifest.json**
+```
+github.com/atnplex/ai/blob/main/manifest.json
+```
+- Review `registered_profiles` for your profile
+- Note your timeout configurations
+- Check required labels for issues
+
+**0c. Derive Your Agent ID**
+```
+Formula: comet-{profile_username}
+Example: atnp3 → comet-atnp3
+```
+- Use this ID in ALL GitHub comments
+- Format: `<!-- agent:comet-atnp3 --> @atngit2 [message]`
+
 **1. Navigate to Protocol Documentation**
 ```
 github.com/atnplex/ai/.comet-browser/AGENT_PROTOCOL.md
