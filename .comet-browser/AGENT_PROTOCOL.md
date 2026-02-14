@@ -1,8 +1,14 @@
 # Agent Coordination Protocol
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-13  
+**Version:** 1.0.0  
+**Last Updated:** 2026-02-14  
 **Status:** ACTIVE
+
+## Protocol Version
+
+Current version: **1.0.0** — see [PROTOCOL_VERSION](../PROTOCOL_VERSION) and [manifest.json](../manifest.json) at repo root.
+
+All agents must check `PROTOCOL_VERSION` at session start. If the version has changed since your last session, re-read this document and `manifest.json`.
 
 ## Overview
 
@@ -75,12 +81,19 @@ If you cannot determine your profile username, state this and ask the user to co
 
 ### States
 
-```
-backlog → claimed → in-progress → review → completed
-                ↓                    ↓
-              stale              blocked
-```
+<a id="task-lifecycle-state-machine"></a>
+Canonical state transitions:
 
+| From State    | Valid Transitions                          |
+|---------------|-------------------------------------------|
+| backlog       | claimed                                   |
+| claimed       | in-progress, backlog (unclaim/timeout)     |
+| in-progress   | review, blocked, failed                   |
+| blocked       | in-progress, failed                       |
+| review        | completed, in-progress (revisions needed) |
+| completed     | (terminal)                                |
+| failed        | backlog (retry)                           |
+| stale         | backlog (auto-transition on timeout)       |
 ### State Definitions
 
 | State | Label | Description | Timeout |
@@ -91,7 +104,22 @@ backlog → claimed → in-progress → review → completed
 | **blocked** | `agent-task`, `blocked` | Waiting on external dependency | Manual |
 | **review** | `agent-task`, `review` | Work complete, needs verification | 24 hours |
 | **completed** | Closed issue | Task finished | N/A |
+| **failed** | `agent-task`, `failed` | Task failed, needs triage | Manual |
 | **stale** | `agent-task`, `stale` | Timeout exceeded | Auto-detected |
+
+<a id="timeouts"></a>
+## Timeouts
+
+The following timeout values are canonical and apply across all agent operations:
+
+- **claimed**: 5 minutes — Agent must transition to `in-progress` within 5 minutes or task returns to backlog
+- **in-progress**: 2 hours — Agent must complete work and move to `review` within 2 hours or task is marked `stale`  
+- **review**: 24 hours — Another agent must verify and close within 24 hours or task is marked `stale`
+
+If a timeout is exceeded:
+1. Any agent may mark the task as `stale`
+2. Add comment: `@agent-[N] marking as stale due to timeout`
+3. Remove state labels and return task to backlog
 
 ## Task Claiming Protocol
 
@@ -282,4 +310,5 @@ is:open label:agent-task label:review
 
 ## Changelog
 
+- **2026-02-14**: Added Protocol Version section, v1.0.0
 - **2026-02-13**: Initial protocol v1.0 created
