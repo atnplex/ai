@@ -5,17 +5,7 @@ Enforce state transition validation to prevent invalid operations and maintain s
 
 ## Critical Validations
 
-### Issue State Transitions
-```
-OPEN → [claimed, in-progress, completed, failed, blocked]
-claimed → [in-progress, completed, failed]
-in-progress → [completed, failed, blocked, review]
-blocked → [claimed, in-progress, failed]
-review → [completed, failed, in-progress]
-completed → [TERMINAL]
-failed → [claimed, TERMINAL]
-```
-
+> Canonical state transitions: see [AGENT_PROTOCOL.md § Task Lifecycle State Machine](../.comet-browser/AGENT_PROTOCOL.md#task-lifecycle-state-machine)
 ### Invalid Transitions
 - Cannot claim completed/failed issues
 - Cannot mark as completed without being in-progress
@@ -54,6 +44,8 @@ Before completing:
 - `blocked` can coexist with `claimed`/`in-progress`
 
 ## Error Recovery
+
+> Timeouts: see [AGENT_PROTOCOL.md § Timeouts](../.comet-browser/AGENT_PROTOCOL.md#timeouts)
 
 ### Orphaned Claims
 If issue is `claimed` > 30 minutes with no progress:
