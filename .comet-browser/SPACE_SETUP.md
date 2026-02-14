@@ -67,7 +67,7 @@ Add these files from the atnplex/ai repository as **Space-level files**:
 
 1. `.comet-browser/AGENT_PROTOCOL.md` - Core coordination protocol
 2. `.comet-browser/ONBOARDING_CHECKLIST.md` - Setup checklist
-3. `.comet-browser/TASK_LIFECYCLE.md` - Task state machine details
+3. `.comet-browser/AGENT_PROTOCOL.md` - Task state machine details
 
 **How to add:**
 1. Download or export each file from GitHub
@@ -284,7 +284,7 @@ Each Perplexity Pro account should:
 - [ ] Add Space instructions
 - [ ] Upload AGENT_PROTOCOL.md to Space files
 - [ ] Upload ONBOARDING_CHECKLIST.md to Space files
-- [ ] Upload TASK_LIFECYCLE.md to Space files
+- [ ] Upload AGENT_PROTOCOL.md to Space files
 - [ ] Add all GitHub links to Space links
 - [ ] Enable GitHub connector with @atngit2
 - [ ] Test connector with query
@@ -320,6 +320,6 @@ If using Comet browser extension:
 ## Related Documentation
 
 - `AGENT_PROTOCOL.md` - Core coordination protocol
-- `TASK_LIFECYCLE.md` - Task state machine details
+- `AGENT_PROTOCOL.md` - Task state machine details
 - `ONBOARDING_CHECKLIST.md` - New agent setup
 - `../rules/` - Domain-specific guidelines
