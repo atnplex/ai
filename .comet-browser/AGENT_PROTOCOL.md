@@ -16,10 +16,51 @@ This protocol defines how 3 Perplexity Pro accounts coordinate through GitHub as
 - **Primary Repository:** `atnplex/ai`
 - **Coordination Folder:** `.comet-browser/`
 
-### Agent Naming Convention
-- Agent-1 (Primary)
-- Agent-2 (Secondary)
-- Agent-3 (Tertiary)
+## Agent Identity
+
+### Deriving Your Agent ID
+
+Your agent ID is automatically derived from two variables:
+
+AGENT_ID = {platform}-{profile}
+
+| Variable   | How to determine                                                                             |
+|------------|----------------------------------------------------------------------------------------------|
+| `platform` | `comet` (Perplexity via Comet Browser), `ag` (Antigravity), `copilot-chat` (GitHub Copilot) |
+| `profile`  | Your Perplexity account username (e.g., `atnp1`, `atnp2`, `atnp3`) or hostname for AG agents |
+
+### Current Registered Agents
+
+| Agent ID       | Platform         | Profile                            | Visual Indicator |
+|----------------|------------------|------------------------------------|------------------|
+| `comet-atnp1`  | Perplexity/Comet | atnp1 (anguy079@gmail.com)         | 🔴 Red theme     |
+| `comet-atnp2`  | Perplexity/Comet | atnp2 (perplexity@angu.aleeas.com) | 🟡 Yellow theme  |
+| `comet-atnp3`  | Perplexity/Comet | atnp3 (anguy089@gmail.com)         | 🔵 Blue theme    |
+| `ag-{host}`    | Antigravity      | hostname-derived                   | N/A              |
+| `copilot-chat` | GitHub Copilot   | N/A                                | N/A              |
+
+### Comment Format (MANDATORY)
+
+Since all agents share `@atngit2`, every GitHub comment MUST start with:
+
+```
+<!-- agent:{AGENT_ID} --> @atngit2 [message]
+```
+
+The HTML comment is invisible in rendered markdown but enables audit parsing.
+
+### Claiming Format
+
+```
+<!-- agent:comet-atnp1 --> @atngit2 claiming this task
+```
+
+### Self-Identification Rule
+
+At the start of every session, include in your first message:
+"I am agent {AGENT_ID}, operating on platform {platform} under profile {profile}."
+
+If you cannot determine your profile username, state this and ask the user to confirm.
 
 ## Mandatory First Action: Bootstrap Check
 

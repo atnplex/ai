@@ -33,3 +33,6 @@ assignees: ''
 
 ## Additional Notes
 [Any other relevant information]
+
+## Assigned Agent ID
+**Assigned Agent ID:** <!-- agent:ID --> (derive from formula: {platform}-{profile})

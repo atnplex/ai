@@ -8,6 +8,49 @@
 
 After reading AGENT_PROTOCOL.md, answer these questions:
 
+**Q0: What is the current protocol version?**
+
+<details>
+<summary>Answer</summary>
+
+Check manifest.json `protocol_version` field (currently 1.0.0)
+</details>
+
+**Q0b: What is your derived agent ID?**
+
+<details>
+<summary>Answer</summary>
+
+Formula: comet-{profile_username}
+Example: atnp3 → comet-atnp3
+</details>
+
+**Q0c: Where are timeout values defined?**
+<details>
+<summary>Answer</summary>
+
+In manifest.json under `state_timeouts` for each profile
+</details>
+
+**Q0d: What is the required comment format for claiming tasks?**
+
+<details>
+<summary>Answer</summary>
+
+```html
+<!-- agent:AGENT_ID --> @atngit2 [message]
+```
+Example: `<!-- agent:comet-atnp3 --> @atngit2 claiming this task`
+</details>
+
+**Q0e: Which file contains the agent registry?**
+
+<details>
+<summary>Answer</summary>
+
+manifest.json in the `registered_profiles` field
+</details>
+
 ### 1. State Transition Timeouts
 
 **Q: What are the timeout periods for each state?**

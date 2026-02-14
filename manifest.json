@@ -1,0 +1,34 @@
+{
+  "protocol_version": "1.0.0",
+  "ssot_repo": "atnplex/ai",
+  "default_branch": "main",
+  "agent_id_formula": "{platform}-{profile}",
+  "platforms": ["comet", "ag", "copilot-chat"],
+  "registered_profiles": {
+    "comet-atnp1": { "email": "anguy079@gmail.com", "theme": "red" },
+    "comet-atnp2": { "email": "perplexity@angu.aleeas.com", "theme": "yellow" },
+    "comet-atnp3": { "email": "anguy089@gmail.com", "theme": "blue" }
+  },
+  "required_labels": [
+    "agent-task", "claimed", "in-progress", "blocked",
+    "review", "completed", "failed", "stale",
+    "agent:comet-atnp1", "agent:comet-atnp2", "agent:comet-atnp3",
+    "agent:ag", "agent:copilot-chat",
+    "bug", "enhancement",
+    "repo:ai", "repo:setup", "repo:infrastructure", "repo:secrets-manager", "org-wide",
+    "protocol", "infra", "security", "cleanup",
+    "priority:high", "priority:medium", "priority:low"
+  ],
+  "docs": {
+    "protocol": ".comet-browser/AGENT_PROTOCOL.md",
+    "bootstrap": ".comet-browser/COMET_BOOTSTRAP.md",
+    "onboarding": ".comet-browser/ONBOARDING_CHECKLIST.md",
+    "verification": ".comet-browser/VERIFICATION_CHECKLIST.md",
+    "space_setup": ".comet-browser/SPACE_SETUP.md"
+  },
+  "timeouts": {
+    "claimed_minutes": 5,
+    "in_progress_hours": 2,
+    "review_hours": 24
+  }
+}
