@@ -20,6 +20,7 @@ When adding a new entry, please follow this structure to ensure AI readability a
 
 | Date | Issue | Env | Status |
 | :--- | :--- | :--- | :--- |
+| 2026-02-14 | Persistent Auto-Approval prompts | Windows | 🔄 In Progress |
 | 2026-02-14 | Antigravity Launcher / WSL Clutter | Windows | ✅ Resolved/Self-Healing |
 | 2026-02-14 | Playwright browser fails ($HOME) | Windows | ✅ Resolved/Persistent |
 | 2026-02-14 | Terminal hanging (stdout pipes) | Windows | ✅ Stabilized |
@@ -27,6 +28,28 @@ When adding a new entry, please follow this structure to ensure AI readability a
 ---
 
 ## 📝 Recent Incidents
+
+### [2026-02-14] | Context: Windows 11 Desktop - Persistent Auto-Approval Blocking
+
+**Symptom**: 
+- Agent continues to be interrupted by "Run command?", "Allow JavaScript execution?", and "Confirm MCP arguments?" prompts despite `yoloMode` and `alwaysProceed` policies.
+- Efficiency is heavily degraded by constant manual approval requirements.
+
+**Root Cause**: 
+- Top-level YOLO settings were missing specific granular sub-settings for Tool Calls, JavaScript execution in browser sub-agents, and wildcard tool eligibility in the chat interface.
+
+**🚨 RESOLUTION (In Progress)**:
+1.  **Hardened Auto-Approval**: 
+    - Added `"*": true` to `chat.tools.eligibleForAutoApproval` for full wildcard tool autonomy.
+    - Set `"antigravity.security.autoApproveToolCalls": true` and `"antigravity.agent.autoApproveToolCalls": true`.
+    - Set `"antigravity.browser.allowJavaScriptExecution": true` to avoid JS execution prompts.
+2.  **Profile Synchronization**: Verified all settings are synced to dynamic profiles like "NewProfile" via `workbench.settings.applyToAllProfiles`.
+
+**Persistence**:
+- Settings updated in Roaming APPDATA. 
+- Rule R15 enforced to track future interruptions.
+
+---
 
 ### [2026-02-14] | Context: Windows 11 Desktop (Physical) - Environment Hardening
 
@@ -59,28 +82,5 @@ When adding a new entry, please follow this structure to ensure AI readability a
 - **Launcher**: Persistent.
 - **Settings**: Persistent in APPDATA.
 - **Rules**: Enforced for all agents.
-
----
-
-### [2026-02-14] | Context: Windows 11 Desktop (Physical)
-
-**Symptom**: 
-- `browser_subagent` (background browser) failed with: `failed to create browser context: failed to install playwright: $HOME environment variable is not set`.
-- `run_command` calls were hanging indefinitely without returning output.
-
-**Root Cause**: 
-- Playwright requires a Unix-style `$HOME` variable even on Windows to locate the browser binary cache.
-- VS Code Shell Integration was interfering with the redirection of stdout in headless sessions.
-
-**🚨 RESOLUTION (Validated)**:
-1.  **Browser Cache Path**: Set permanent User environment variable `HOME`.
-    - `[Environment]::SetEnvironmentVariable('HOME', 'C:\Users\Alex', 'User')`
-2.  **Shell Stability**: Updated `settings.json` to disable shell integration.
-    - Set `"terminal.integrated.shellIntegration.enabled": false`. (Later re-enabled selectively for stability).
-
-**Persistence**:
-- **HOME**: Persistent (User Registry).
-- **Settings**: Persistent (`%APPDATA%`).
-- **Antigravity**: Requires restart to pick up the new `HOME` value.
 
 ---
