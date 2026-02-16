@@ -1,0 +1,72 @@
+name: 🤖 Agent Task
+description: Task for AI agents to claim and execute autonomously
+labels: ["agent-task", "status:ready"]
+body:
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - priority:critical
+        - priority:high
+        - priority:medium
+        - priority:low
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Affected Repository
+      options:
+        - repo:infrastructure
+        - repo:atn
+        - repo:ai
+        - repo:setup
+        - repo:oracle-cloud-vps
+        - scope:org-wide
+    validations:
+      required: true
+
+  - type: textarea
+    id: task_description
+    attributes:
+      label: Task Description
+      description: What should the agent do?
+      placeholder: |
+        **Objective:**
+        Complete X to achieve Y...
+
+        **Acceptance criteria:**
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] Tests pass
+        - [ ] Documentation updated
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context & Resources
+      description: Links to relevant docs, code, previous discussions, etc.
+      placeholder: |
+        - Related docs: [link]
+        - Previous work: #123
+        - Reference implementation: [link]
+    validations:
+      required: false
+
+  - type: dropdown
+    id: estimated_time
+    attributes:
+      label: Estimated Time
+      description: Rough time estimate for agent planning
+      options:
+        - "< 30 min"
+        - "30 min - 1 hour"
+        - "1-2 hours"
+        - "2-4 hours"
+        - "> 4 hours"
+    validations:
+      required: false

@@ -1,0 +1,17 @@
+# Infrastructure Agent Profile
+#
+# Minimal server set for infrastructure and deployment tasks.
+# Excludes code-focused servers to reduce context/startup overhead.
+
+---
+infra:
+  description: "Infrastructure and deployment tasks — deploy, monitor, SSH"
+  servers:
+    - github-mcp-server
+    - mcp-git
+    - mcp-filesystem
+    - mcp-fetch
+    - mcp-docker
+    - cloudflare
+    - mcp-memory
+    - mcp-time

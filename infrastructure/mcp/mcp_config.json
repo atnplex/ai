@@ -1,0 +1,5 @@
+{
+  "_comment": "GENERATED FILE — Do not edit directly. SSOT is ai/config/mcp_registry.json",
+  "_generate": "python3 /atn/ai/scripts/mcp_manager.py generate",
+  "mcpServers": {}
+}

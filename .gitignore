@@ -1,0 +1,25 @@
+# System
+.DS_Store
+Thumbs.db
+*.log
+
+# Editors
+.vscode/
+.idea/
+
+# Environment
+.env
+.venv/
+venv/
+env/
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+
+# Antigravity/Agent
+.agent/
+.gemini/
+brain/
+artifacts/

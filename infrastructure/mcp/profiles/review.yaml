@@ -1,0 +1,16 @@
+# Code Review Agent Profile
+#
+# Focused on code review tasks — read-heavy, no infrastructure tools.
+
+---
+review:
+  description: "Code review tasks — GitHub, git, filesystem, research"
+  servers:
+    - github-mcp-server
+    - perplexity-ask
+    - mcp-git
+    - mcp-filesystem
+    - mcp-fetch
+    - mcp-sequentialthinking
+    - context7
+    - mcp-memory

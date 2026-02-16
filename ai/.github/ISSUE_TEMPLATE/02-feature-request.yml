@@ -1,0 +1,58 @@
+name: ✨ Feature Request
+description: Propose a new feature or enhancement
+labels: ["type:feature", "status:triage"]
+body:
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature?
+      options:
+        - priority:high
+        - priority:medium
+        - priority:low
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Affected Repository/Scope
+      description: Which repo or area does this affect?
+      options:
+        - repo:infrastructure
+        - repo:atn
+        - repo:ai
+        - repo:setup
+        - repo:oracle-cloud-vps
+        - scope:org-wide
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature
+    attributes:
+      label: Feature Description
+      description: What feature do you want? What problem does it solve?
+      placeholder: |
+        **Problem:**
+        Currently, we can't...
+
+        **Proposed solution:**
+        Add a feature that...
+
+        **Benefits:**
+        This would allow us to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: What other approaches did you consider?
+      placeholder: |
+        - Option A: Use existing tool X, but...
+        - Option B: Manual process, but...
+    validations:
+      required: false

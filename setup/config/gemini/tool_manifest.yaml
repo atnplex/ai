@@ -1,0 +1,285 @@
+# Tool Manifest — Single Source of Truth for Auto-Discovery (R59)
+#
+# Used by the auto-discovery rule to dynamically load skills, MCP servers,
+# and workflows based on user request keywords.
+#
+# Path: $NAMESPACE/.gemini/tool_manifest.yaml (deployed from setup/config/gemini/)
+
+---
+skills:
+  # ── Required Skills ──────────────────────────────────────────────────
+  - name: brainstorming
+    path: skills/brainstorming/SKILL.md
+    keywords: [brainstorm, design, plan, requirements, explore, feature, idea]
+    required: true
+    description: "REQUIRED before creative work — explores intent, requirements, and design"
+
+  - name: verification-before-completion
+    path: skills/verification-before-completion/SKILL.md
+    keywords: [verify, test, complete, done, check, evidence, finish]
+    required: true
+    description: "REQUIRED before claiming work complete — evidence before assertions"
+
+  # ── Infrastructure Skills ────────────────────────────────────────────
+  - name: deploy
+    path: skills/deploy/SKILL.md
+    keywords: [deploy, restart, service, docker, compose, vps]
+    description: "Deploy or restart Docker services on VPS1, VPS2, or Unraid"
+
+  - name: inventory
+    path: skills/inventory/SKILL.md
+    keywords:
+      [inventory, discover, servers, containers, resources, infrastructure]
+    description: "Collect system inventory from local or remote servers"
+
+  - name: health
+    path: skills/health/SKILL.md
+    keywords: [health, status, endpoint, service, check, alive]
+    description: "Check health endpoints for running services"
+
+  - name: ssh
+    path: skills/ssh/SKILL.md
+    keywords: [ssh, remote, connect, server, tailscale, execute]
+    description: "SSH connection shortcuts for all servers"
+
+  - name: cloudflare-tunnel
+    path: skills/cloudflare-tunnel/SKILL.md
+    keywords: [cloudflare, tunnel, cloudflared, dns, proxy, domain]
+    description: "Manage Cloudflare Tunnels across servers"
+
+  - name: logs
+    path: skills/logs/SKILL.md
+    keywords: [logs, docker, container, tail, debug, output]
+    description: "View Docker container logs locally or remotely"
+
+  # ── AI/Agent Skills ──────────────────────────────────────────────────
+  - name: parallel-research
+    path: skills/parallel-research/SKILL.md
+    keywords: [research, parallel, summarize, fast, tmpfs, consolidate]
+    description: "Fast research via parallel Flash summarization"
+
+  - name: parallel-agents
+    path: skills/parallel-agents/SKILL.md
+    keywords:
+      [parallel, subagent, concurrent, dispatch, independent, multi-task]
+    description: "Dispatch multiple agents for independent tasks concurrently"
+
+  - name: ai-reviewer-workflow
+    path: skills/ai-reviewer-workflow/SKILL.md
+    keywords: [review, copilot, coderabbit, gemini, jules, optimization]
+    description: "Optimized AI code review strategy to save Copilot Pro limits"
+
+  - name: repomix-optimize
+    path: skills/repomix-optimize/SKILL.md
+    keywords: [repomix, optimize, token, pack, compress, repository, codebase]
+    description: "Pack repositories into AI-friendly formats to reduce token usage"
+
+  # ── Context Management Skills ────────────────────────────────────────
+  - name: context-compression
+    path: skills/context-compression/SKILL.md
+    keywords: [compress, summarize, token, context, reduce, optimize]
+    description: "Compress and summarize context to reduce token usage"
+
+  - name: context-optimization
+    path: skills/context-optimization/SKILL.md
+    keywords: [context, optimize, attention, token, efficiency, focus]
+    description: "Optimize context window usage for maximum effectiveness"
+
+  - name: filesystem-context
+    path: skills/filesystem-context/SKILL.md
+    keywords: [filesystem, offload, persist, scratchpad, memory, file]
+    description: "Use filesystem for dynamic context offloading and persistence"
+
+  - name: memory-persistence
+    path: skills/memory-persistence/SKILL.md
+    keywords: [memory, persistence, context, session, checkpoint, state]
+    description: "Maintain context across sessions with STM/LTM separation"
+
+  # ── Development Skills ───────────────────────────────────────────────
+  - name: git-ops
+    path: skills/git-ops/SKILL.md
+    keywords: [git, commit, push, branch, merge, add]
+    description: "Git add, commit, and push operations"
+
+  - name: environment-check
+    path: skills/environment-check/SKILL.md
+    keywords:
+      [environment, verify, check, idempotent, fallback, commands, paths]
+    description: "Verify environment capabilities before executing commands"
+
+  - name: error-recovery
+    path: skills/error-recovery/SKILL.md
+    keywords: [error, recovery, fallback, retry, graceful, degradation]
+    description: "Handle failures gracefully with fallbacks and escalation"
+
+  # ── Meta Skills ──────────────────────────────────────────────────────
+  - name: self-reflection
+    path: skills/self-reflection/SKILL.md
+    keywords:
+      [reflection, reflexion, metacognition, learning, improvement, retry]
+    description: "Analyze past actions/outputs to improve future attempts"
+
+  - name: prompt-optimization
+    path: skills/prompt-optimization/SKILL.md
+    keywords:
+      [prompt, optimization, context, enhancement, personalization, inference]
+    description: "Enhance user prompts with context from repos, history, and preferences"
+
+# ── MCP Servers ──────────────────────────────────────────────────────
+mcp_servers:
+  - name: github-mcp-server
+    keywords: [github, pr, issue, repo, branch, merge, review]
+    always_loaded: true
+    requires_secrets: [GITHUB_PERSONAL_ACCESS_TOKEN]
+    description: "GitHub operations — PRs, issues, repos"
+
+  - name: perplexity-ask
+    keywords: [search, research, question, perplexity, web]
+    always_loaded: true
+    requires_secrets: [PERPLEXITY_API_KEY]
+    description: "Web search and research via Perplexity"
+
+  - name: mcp-git
+    keywords: [git, diff, blame, log, commit, status]
+    always_loaded: true
+    description: "Git operations — add, commit, diff, log"
+
+  - name: mcp-filesystem
+    keywords: [file, read, write, directory, list, filesystem]
+    always_loaded: true
+    description: "File operations beyond workspace"
+
+  - name: mcp-fetch
+    keywords: [fetch, url, http, download, api, request]
+    always_loaded: true
+    description: "HTTP requests and URL content fetching"
+
+  - name: mcp-memory
+    keywords: [memory, knowledge, graph, entity, relation, persist]
+    always_loaded: true
+    description: "Knowledge graph persistence"
+
+  - name: mcp-sequentialthinking
+    keywords: [think, reason, chain, sequential, complex, analyze]
+    always_loaded: true
+    description: "Complex reasoning chains"
+
+  - name: mcp-time
+    keywords: [time, timezone, utc, date, schedule]
+    always_loaded: true
+    description: "Time and timezone operations"
+
+  - name: cloudflare
+    keywords: [cloudflare, dns, tunnel, workers, domain, zone]
+    always_loaded: true
+    requires_secrets: [CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN]
+    description: "Cloudflare management — DNS, tunnels, workers"
+
+  - name: context7
+    keywords: [docs, documentation, library, framework, api, reference]
+    always_loaded: true
+    description: "Library documentation context"
+
+  - name: mcp-docker
+    keywords: [docker, container, image, compose, volume, network]
+    always_loaded: true
+    description: "Docker container management"
+
+  - name: mcp-playwright
+    keywords: [browser, login, screenshot, automate, playwright, web]
+    load_trigger: [login, browser, screenshot, automate, scrape]
+    always_loaded: false
+    description: "Browser automation and testing"
+
+# ── Workflows ────────────────────────────────────────────────────────
+workflows:
+  # Pipeline stages
+  - name: triage
+    path: global_workflows/pipeline-00-triage.md
+    keywords: [triage, classify, route, new, request]
+    description: "Classify and route incoming requests"
+
+  - name: confirm
+    path: global_workflows/pipeline-01-confirm.md
+    keywords: [confirm, approve, acknowledge]
+    description: "Confirm understanding and plan"
+
+  - name: decompose
+    path: global_workflows/pipeline-02-decompose.md
+    keywords: [decompose, break, tasks, subtasks, plan]
+    description: "Break work into subtasks"
+
+  - name: execute
+    path: global_workflows/pipeline-03-execute.md
+    keywords: [execute, implement, build, code, run]
+    description: "Execute planned work"
+
+  - name: pr-lifecycle
+    path: global_workflows/pipeline-04-pr-lifecycle.md
+    keywords: [pr, pull, request, lifecycle, merge]
+    description: "PR creation and lifecycle management"
+
+  - name: deliver
+    path: global_workflows/pipeline-05-deliver.md
+    keywords: [deliver, complete, ship, release, done]
+    description: "Final delivery and cleanup"
+
+  # Utility workflows
+  - name: crawl-docs
+    path: global_workflows/crawl-docs.md
+    keywords: [crawl, docs, documentation, scrape, batch, pages]
+    description: "Batch crawl documentation sites"
+
+  - name: delegate-pull-request
+    path: global_workflows/delegate-pull-request.md
+    keywords: [delegate, pr, agent, assign, review]
+    description: "Delegate PR work to another agent"
+
+  - name: modernizing-code
+    path: global_workflows/modernizing-code.md
+    keywords: [modernize, refactor, upgrade, migrate, update]
+    description: "Modernize legacy code patterns"
+
+  - name: worktree
+    path: global_workflows/worktree.md
+    keywords: [worktree, isolate, branch, parallel, workspace]
+    description: "Git worktree isolation for parallel work"
+
+  - name: resume
+    path: global_workflows/resume.md
+    keywords: [resume, continue, reconnect, restart, pick]
+    description: "Resume interrupted work"
+
+  - name: disconnection
+    path: global_workflows/disconnection.md
+    keywords: [disconnect, timeout, lost, connection, recovery]
+    description: "Handle disconnection recovery"
+
+  - name: fix-github-connection
+    path: baseline/workflows/fix-github-connection.md
+    keywords: [github, ssh, https, connection, fix, auth]
+    description: "Restore GitHub connectivity"
+
+  - name: production-scripting
+    path: baseline/workflows/production_scripting.md
+    keywords: [script, production, bash, python, automation]
+    description: "Create production-grade ecosystem scripts"
+
+# ── Processing Patterns ──────────────────────────────────────────────
+processing_patterns:
+  parallel_io:
+    triggers: [crawl, fetch, download, batch, multiple, urls]
+    description: "Parallel I/O operations, no model needed"
+
+  parallel_flash:
+    triggers: [summarize, review, compare, translate, batch]
+    min_items: 3
+    description: "Parallel Flash calls for bulk processing"
+
+  single_reasoning:
+    triggers: [analyze, debug, investigate, explain, trace]
+    description: "Single focused reasoning call"
+
+  critical_thinking:
+    triggers: [security, architecture, design, audit, compliance]
+    description: "Deep analysis with thinking enabled"

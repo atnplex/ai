@@ -1,0 +1,21 @@
+# MCP Agent Profiles
+#
+# Defines tool subsets for different agent contexts.
+# Agents load only the MCP servers relevant to their current task.
+
+---
+# Default profile — used when no specific profile is requested
+default:
+  description: "Standard development profile with all commonly-used servers"
+  servers:
+    - github-mcp-server
+    - perplexity-ask
+    - mcp-git
+    - mcp-filesystem
+    - mcp-fetch
+    - mcp-memory
+    - mcp-sequentialthinking
+    - mcp-time
+    - cloudflare
+    - context7
+    - mcp-docker

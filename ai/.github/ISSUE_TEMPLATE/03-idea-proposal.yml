@@ -1,0 +1,55 @@
+name: 💡 Idea / Proposal
+description: Propose a new idea or enhancement for discussion
+labels: ["type:idea", "status:triage"]
+body:
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      description: Which area does this idea affect?
+      options:
+        - repo:infrastructure
+        - repo:atn
+        - repo:ai
+        - repo:setup
+        - repo:oracle-cloud-vps
+        - scope:org-wide
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: Idea Description
+      description: What's the idea? What would it enable?
+      placeholder: |
+        **The idea:**
+        We should...
+
+        **Why this matters:**
+        This would help us...
+
+        **Potential impact:**
+        - Improves...
+        - Reduces...
+        - Enables...
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Possible Implementation
+      description: Optional - how might this be implemented?
+      placeholder: |
+        This could be done by...
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: What other approaches could achieve similar goals?
+    validations:
+      required: false

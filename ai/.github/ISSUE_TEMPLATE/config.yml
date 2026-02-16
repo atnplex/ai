@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Agent Protocol Documentation
+    url: https://github.com/atnplex/ai/blob/main/.comet-browser/AGENT_PROTOCOL.md
+    about: Read the agent coordination protocol before creating issues
+  - name: Existing Agent Tasks
+    url: https://github.com/atnplex/ai/issues?q=is%3Aopen+label%3Aagent-task
+    about: Browse open agent tasks

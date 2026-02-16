@@ -1,0 +1,88 @@
+{
+  "mcpServers": {
+    "github-mcp-server": {
+      "command": "/atn/ai/scripts/mcp_with_secrets.sh",
+      "args": [
+        "docker",
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "ghcr.io/github/github-mcp-server"
+      ]
+    },
+    "perplexity-ask": {
+      "command": "/atn/ai/scripts/mcp_with_secrets.sh",
+      "args": ["npx", "-y", "server-perplexity-ask"]
+    },
+    "mcp-git": {
+      "command": "/usr/bin/node",
+      "args": [
+        "/atn/.gemini/antigravity/mcp/node_modules/@mseep/git-mcp-server/dist/index.js",
+        "/atn"
+      ]
+    },
+    "mcp-filesystem": {
+      "command": "/usr/bin/node",
+      "args": [
+        "/atn/.gemini/antigravity/mcp/node_modules/@modelcontextprotocol/server-filesystem/dist/index.js",
+        "/home/alex",
+        "/atn"
+      ]
+    },
+    "mcp-fetch": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "mcp/fetch"]
+    },
+    "mcp-playwright": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "mcp/playwright"]
+    },
+    "mcp-memory": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "-v", "mcp-memory:/data", "mcp/memory"]
+    },
+    "mcp-sequentialthinking": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "mcp/sequentialthinking"]
+    },
+    "mcp-time": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "mcp/time"]
+    },
+    "cloudflare": {
+      "command": "/atn/ai/scripts/mcp_with_secrets.sh",
+      "args": [
+        "/usr/bin/node",
+        "/atn/.gemini/antigravity/mcp/node_modules/@cloudflare/mcp-server-cloudflare/dist/index.js",
+        "run"
+      ]
+    },
+    "context7": {
+      "command": "/usr/bin/node",
+      "args": [
+        "/atn/.gemini/antigravity/mcp/node_modules/@upstash/context7-mcp/dist/index.js"
+      ]
+    },
+    "mcp-docker": {
+      "command": "/usr/bin/node",
+      "args": [
+        "/atn/.gemini/antigravity/mcp/node_modules/mcp-server-docker/dist/index.js"
+      ]
+    }
+  },
+  "defaults": [
+    "github-mcp-server",
+    "perplexity-ask",
+    "mcp-git",
+    "mcp-filesystem",
+    "mcp-fetch",
+    "mcp-memory",
+    "mcp-sequentialthinking",
+    "mcp-time",
+    "cloudflare",
+    "context7",
+    "mcp-docker"
+  ]
+}

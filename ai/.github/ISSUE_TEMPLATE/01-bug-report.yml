@@ -1,0 +1,61 @@
+name: 🐛 Bug Report
+description: Report a bug or broken functionality
+labels: ["type:bug", "status:triage"]
+body:
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How critical is this bug?
+      options:
+        - priority:critical
+        - priority:high
+        - priority:medium
+        - priority:low
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Affected Repository/Scope
+      description: Which repo or area does this affect?
+      options:
+        - repo:infrastructure
+        - repo:atn
+        - repo:ai
+        - repo:setup
+        - repo:oracle-cloud-vps
+        - scope:org-wide
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: What's broken? What should happen instead?
+      placeholder: |
+        **Current behavior:**
+        What's happening now...
+
+        **Expected behavior:**
+        What should happen...
+
+        **Steps to reproduce:**
+        1. First do this...
+        2. Then do that...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Logs, screenshots, environment details, etc.
+      placeholder: |
+        - OS: Windows/Debian/OCI
+        - Version: 
+        - Related issues: #123
+    validations:
+      required: false
