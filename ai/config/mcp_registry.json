@@ -74,6 +74,18 @@
     "brave-search": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-brave-search"]
+    },
+    "openai": {
+      "command": "/atn/ai/scripts/mcp_with_secrets.sh",
+      "args": ["npx", "-y", "@modelcontextprotocol/server-openai"]
+    },
+    "anthropic": {
+      "command": "/atn/ai/scripts/mcp_with_secrets.sh",
+      "args": ["npx", "-y", "@modelcontextprotocol/server-anthropic"]
+    },
+    "gemini": {
+      "command": "/atn/ai/scripts/mcp_with_secrets.sh",
+      "args": ["npx", "-y", "@modelcontextprotocol/server-google-generative-ai"]
     }
   },
   "defaults": [
@@ -88,6 +100,9 @@
     "cloudflare",
     "context7",
     "mcp-docker",
-    "brave-search"
+    "brave-search",
+    "openai",
+    "anthropic",
+    "gemini"
   ]
 }
