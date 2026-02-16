@@ -139,6 +139,12 @@ mcp_servers:
     requires_secrets: [PERPLEXITY_API_KEY]
     description: "Web search and research via Perplexity"
 
+  - name: brave-search
+    keywords: [search, google, find, web, brave, query]
+    always_loaded: false
+    load_trigger: [search, google, find, web, brave]
+    description: "Web search via Brave"
+
   - name: mcp-git
     keywords: [git, diff, blame, log, commit, status]
     always_loaded: true
