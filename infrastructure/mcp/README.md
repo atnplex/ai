@@ -57,3 +57,19 @@ Think of a **VPC** as your **private "Gated Community"** in the cloud.
 - **Public Internet**: Anyone can knock on your door. You need strong locks (Passwords/Auth).
 - **VPC (Private)**: Only people inside the gates (your servers, or you via VPN/Tailscale) can see you.
 - **MCP Strategy**: We prefer deploying to the VPC (`--ingress=internal`). This means your agent is safe from public scanners without needing complex public authentication, as long as you connect via Tailscale.
+
+## 5. Account Management & Costs
+
+### Multi-Account Strategy
+
+To manage costs and separate environments (e.g., Free Tier vs Credits):
+
+1.  Run `./setup/deploy_to_gcp.sh`.
+2.  Choose **Option 3: Create New Configuration** to add a second account.
+3.  Switch between them easily using **Option 2** in the future.
+
+### Cost Control
+
+- **Budgets**: Set up a Budget Alert at [GCP Billing Budgets](https://console.cloud.google.com/billing/budgets).
+- **Alerts**: Configure an alert at **$1.00** (or your limit) to get notified immediately of unexpected usage.
+- **Note**: GCP does not auto-stop spending by default. Alerts are crucial for monitoring.

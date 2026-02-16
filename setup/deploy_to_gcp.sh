@@ -6,6 +6,30 @@ set -e
 
 echo "=== MCP GCP Deployer ==="
 
+# 0. Account Selection
+echo "Checking gcloud configurations..."
+gcloud config configurations list
+
+echo ""
+echo "Select Action:"
+echo "1) Use Current Configuration"
+echo "2) Switch to Existing Configuration"
+echo "3) Create New Configuration (for another account)"
+read -p "Choose [1]: " CONFIG_ACTION
+CONFIG_ACTION=${CONFIG_ACTION:-1}
+
+if [ "$CONFIG_ACTION" -eq 2 ]; then
+    read -p "Enter configuration name: " CONFIG_NAME
+    gcloud config configurations activate "$CONFIG_NAME"
+elif [ "$CONFIG_ACTION" -eq 3 ]; then
+    read -p "Enter new configuration name: " CONFIG_NAME
+    gcloud config configurations create "$CONFIG_NAME"
+    echo "Please log in with the new account:"
+    gcloud auth login
+    read -p "Enter Project ID for this account: " NEW_PROJECT_ID
+    gcloud config set project "$NEW_PROJECT_ID"
+fi
+
 # 1. Config Detection
 PROJECT_ID=$(gcloud config get-value project 2>/dev/null)
 REGION=$(gcloud config get-value run/region 2>/dev/null || echo "us-central1")
@@ -17,6 +41,18 @@ fi
 
 echo "Project: $PROJECT_ID"
 echo "Region:  $REGION"
+
+# 1.5 Cost Control Check
+echo ""
+echo "--- Cost Control ---"
+BILLING_ENABLED=$(gcloud beta billing projects describe "$PROJECT_ID" --format="value(billingEnabled)" 2>/dev/null || echo "unknown")
+if [ "$BILLING_ENABLED" = "False" ]; then
+    echo "WARNING: Billing is disabled for this project. Deployment might fail."
+else
+    echo "Billing is enabled."
+    echo "Recommendation: Set up a Budget Alert at https://console.cloud.google.com/billing/budgets to avoid overages."
+    echo "Note: GCP Budgets send ALERTS, they do not auto-stop services. To stop spending, you must manually disable billing or use complex Cloud Functions."
+fi
 
 # 2. Service Name
 read -p "Enter Service Name [mcp-server]: " SERVICE_NAME
