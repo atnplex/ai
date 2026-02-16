@@ -150,6 +150,64 @@ services:
         reservations:
           memory: 2G
 
+  # ============================================================
+  # OCI CLI (Oracle Cloud Infrastructure)
+  # ============================================================
+  mcp-oci:
+    build:
+      context: ./servers/oci
+      dockerfile: Dockerfile
+    container_name: mcp-oci
+    restart: unless-stopped
+    environment:
+      - OCI_CONFIG_FILE=/root/.oci/config
+      - OCI_PROFILE=DEFAULT
+      - PORT=9006
+    ports:
+      - "9006:9006"
+    volumes:
+      - ${HOME}/.oci:/root/.oci:ro
+    networks:
+      - mcp-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import requests; requests.get('http://localhost:9006/health')",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================
+  # GraphQL Generic Query Executor
+  # ============================================================
+  mcp-graphql:
+    build:
+      context: ./servers/graphql
+      dockerfile: Dockerfile
+    container_name: mcp-graphql
+    restart: unless-stopped
+    environment:
+      - PORT=9007
+    ports:
+      - "9007:9007"
+    networks:
+      - mcp-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import requests; requests.get('http://localhost:9007/health')",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
 networks:
   mcp-network:
     driver: bridge
