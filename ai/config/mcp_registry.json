@@ -86,6 +86,22 @@
     "gemini": {
       "command": "/atn/ai/scripts/mcp_with_secrets.sh",
       "args": ["npx", "-y", "@modelcontextprotocol/server-google-generative-ai"]
+    },
+    "google-drive": {
+      "command": "/atn/ai/scripts/mcp_with_secrets.sh",
+      "args": ["npx", "-y", "@modelcontextprotocol/server-google-drive"]
+    },
+    "gmail": {
+      "command": "/atn/ai/scripts/mcp_with_secrets.sh",
+      "args": ["npx", "-y", "@modelcontextprotocol/server-gmail"]
+    },
+    "azure": {
+      "command": "/atn/ai/scripts/mcp_with_secrets.sh",
+      "args": ["npx", "-y", "@modelcontextprotocol/server-azure"]
+    },
+    "google-cloud": {
+      "command": "/atn/ai/scripts/mcp_with_secrets.sh",
+      "args": ["npx", "-y", "@modelcontextprotocol/server-google-cloud"]
     }
   },
   "defaults": [
@@ -103,6 +119,10 @@
     "brave-search",
     "openai",
     "anthropic",
-    "gemini"
+    "gemini",
+    "google-drive",
+    "gmail",
+    "azure",
+    "google-cloud"
   ]
 }

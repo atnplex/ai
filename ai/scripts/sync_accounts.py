@@ -186,7 +186,7 @@ def update_dashboard(index, secrets):
     if "charlydang6@gmail.com" not in [acc["email"] for acc in index["accounts"]]:
         lines.append(f"| charlydang6@gmail.com | ❌ Missing | ❌ N/A | None |")
 
-    with open(dashboard_path, "w") as f:
+    with open(dashboard_path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
     log(f"Dashboard updated at {dashboard_path}")
 
