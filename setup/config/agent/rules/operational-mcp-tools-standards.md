@@ -10,19 +10,28 @@ trigger: always
 
 ## Configuration Location
 
-**Single source of truth**: `$NAMESPACE/.gemini/antigravity/mcp_config.json`
+**Choose based on your deployment environment:**
+
+| Environment                     | Config Location                                  | Manager Script                     |
+| ------------------------------- | ------------------------------------------------ | ---------------------------------- |
+| **Local Development (Windows)** | `$WORKSPACE/setup/config/gemini/mcp_config.json` | Manual edit or `easy_mcp_setup.sh` |
+| **Linux Baseline (`/atn`)**     | `/atn/ai/config/mcp_registry.json`               | `/atn/ai/scripts/mcp_manager.py`   |
+| **Cloud (GCP)**                 | `infrastructure/mcp/registry/servers.yaml`       | `deploy_to_gcp.sh`                 |
+
+> [!NOTE]
+> For comprehensive deployment guidance, see [infrastructure/mcp/docs/MCP_INDEX.md](../../../infrastructure/mcp/docs/MCP_INDEX.md).
 
 ## Available MCP Servers
 
-| Server | Purpose |
-|--------|---------|
-| `mcp-fetch` | HTTP requests, URL content fetching |
-| `mcp-filesystem` | File operations beyond workspace |
-| `mcp-git` | Git operations (add, commit, diff, etc.) |
-| `mcp-memory` | Knowledge graph persistence |
-| `mcp-playwright` | Browser automation and testing |
-| `mcp-sequentialthinking` | Complex reasoning chains |
-| `mcp-time` | Time and timezone operations |
+| Server                   | Purpose                                  |
+| ------------------------ | ---------------------------------------- |
+| `mcp-fetch`              | HTTP requests, URL content fetching      |
+| `mcp-filesystem`         | File operations beyond workspace         |
+| `mcp-git`                | Git operations (add, commit, diff, etc.) |
+| `mcp-memory`             | Knowledge graph persistence              |
+| `mcp-playwright`         | Browser automation and testing           |
+| `mcp-sequentialthinking` | Complex reasoning chains                 |
+| `mcp-time`               | Time and timezone operations             |
 
 ## Usage Guidelines
 
@@ -35,11 +44,11 @@ trigger: always
 > - Structured output
 > - Cross-platform compatibility
 
-| Task | Prefer | Avoid |
-|------|--------|-------|
-| Read file | `mcp_mcp-filesystem_read_file` | `cat file` |
-| Git status | `mcp_mcp-git_git_status` | `git status` |
-| Fetch URL | `mcp_mcp-fetch_fetch` | `curl URL` |
+| Task       | Prefer                         | Avoid        |
+| ---------- | ------------------------------ | ------------ |
+| Read file  | `mcp_mcp-filesystem_read_file` | `cat file`   |
+| Git status | `mcp_mcp-git_git_status`       | `git status` |
+| Fetch URL  | `mcp_mcp-fetch_fetch`          | `curl URL`   |
 
 ### Browser Automation
 

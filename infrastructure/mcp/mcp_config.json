@@ -1,5 +1,11 @@
 {
-  "_comment": "GENERATED FILE — Do not edit directly. SSOT is ai/config/mcp_registry.json",
-  "_generate": "python3 /atn/ai/scripts/mcp_manager.py generate",
-  "mcpServers": {}
+  "_deprecated": true,
+  "_message": "This file is a stub that points to the registry SSOT.",
+  "_see": "infrastructure/mcp/docs/MCP_INDEX.md for proper config locations based on your deployment environment",
+  "mcpServers": {
+    "_note": "For actual server configurations, see:",
+    "local": "setup/config/gemini/mcp_config.json",
+    "linux": "/atn/ai/config/mcp_registry.json",
+    "cloud": "infrastructure/mcp/registry/servers.yaml"
+  }
 }

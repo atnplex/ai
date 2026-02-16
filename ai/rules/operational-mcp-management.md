@@ -4,6 +4,14 @@
 > **Version**: 1.2.0
 > **Status**: Active
 
+> [!IMPORTANT]
+> **Deployment Scope**: This rule applies ONLY to **Linux servers in the `/atn` namespace** (VPS1, VPS2, Debian VMs).
+>
+> For other environments, see:
+>
+> - **Windows Development**: `setup/config/agent/rules/operational-mcp-tools-standards.md`
+> - **Cloud Deployment (GCP)**: `infrastructure/mcp/README.md`
+
 ## 0. Synchronization First
 
 At the start of every session (or when instructed), agents MUST run:
