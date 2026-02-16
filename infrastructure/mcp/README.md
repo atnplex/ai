@@ -47,3 +47,13 @@ To minimize overhead and token usage, we do NOT load all tools for every agent.
 ```bash
 ./setup/deploy_to_gcp.sh
 ```
+
+## 4. Concepts
+
+### What is a VPC (Virtual Private Cloud)?
+
+Think of a **VPC** as your **private "Gated Community"** in the cloud.
+
+- **Public Internet**: Anyone can knock on your door. You need strong locks (Passwords/Auth).
+- **VPC (Private)**: Only people inside the gates (your servers, or you via VPN/Tailscale) can see you.
+- **MCP Strategy**: We prefer deploying to the VPC (`--ingress=internal`). This means your agent is safe from public scanners without needing complex public authentication, as long as you connect via Tailscale.
