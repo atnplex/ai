@@ -1,0 +1,131 @@
+version: "3.8"
+
+# Remote MCP Hub
+# Deploy to: VPS1 or VPS2 via Tailscale
+# Purpose: Centralized MCP servers accessible from any client
+
+services:
+  # ============================================================
+  # GitHub MCP Server (Official)
+  # ============================================================
+  mcp-github:
+    image: ghcr.io/github/github-mcp-server:latest
+    container_name: mcp-github
+    restart: unless-stopped
+    environment:
+      - GITHUB_PERSONAL_ACCESS_TOKEN=${GITHUB_TOKEN}
+      - MCP_TRANSPORT=sse
+      - PORT=9001
+    ports:
+      - "9001:9001"
+    networks:
+      - mcp-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================
+  # Perplexity Search (Wrapped npm package)
+  # ============================================================
+  mcp-perplexity:
+    build:
+      context: ./servers/perplexity
+      dockerfile: Dockerfile
+    container_name: mcp-perplexity
+    restart: unless-stopped
+    environment:
+      - PERPLEXITY_API_KEY=${PERPLEXITY_KEY}
+      - MCP_TRANSPORT=sse
+      - PORT=9002
+    ports:
+      - "9002:9002"
+    networks:
+      - mcp-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================
+  # Cloudflare Management (Wrapped npm package)
+  # ============================================================
+  mcp-cloudflare:
+    build:
+      context: ./servers/cloudflare
+      dockerfile: Dockerfile
+    container_name: mcp-cloudflare
+    restart: unless-stopped
+    environment:
+      - CLOUDFLARE_API_TOKEN=${CF_TOKEN}
+      - CLOUDFLARE_ACCOUNT_ID=${CF_ACCOUNT_ID}
+      - MCP_TRANSPORT=sse
+      - PORT=9003
+    ports:
+      - "9003:9003"
+    networks:
+      - mcp-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================
+  # MCP Memory (Knowledge Graph)
+  # ============================================================
+  mcp-memory:
+    image: mcp/memory:latest
+    container_name: mcp-memory
+    restart: unless-stopped
+    environment:
+      - MCP_TRANSPORT=sse
+      - PORT=9004
+    ports:
+      - "9004:9004"
+    volumes:
+      - mcp-memory-data:/data
+    networks:
+      - mcp-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9004/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================
+  # MCP Playwright (Browser Automation)
+  # ============================================================
+  mcp-playwright:
+    image: mcp/playwright:latest
+    container_name: mcp-playwright
+    restart: unless-stopped
+    environment:
+      - MCP_TRANSPORT=sse
+      - PORT=9005
+    ports:
+      - "9005:9005"
+    shm_size: 2gb
+    networks:
+      - mcp-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9005/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+        reservations:
+          memory: 2G
+
+networks:
+  mcp-network:
+    driver: bridge
+
+volumes:
+  mcp-memory-data:
+    name: mcp-memory-data

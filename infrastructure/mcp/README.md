@@ -4,13 +4,17 @@ This directory contains the configuration and definitions for Model Context Prot
 
 ## 1. Strategy
 
-### Priority Order
+### Hybrid Deployment Tiers
 
-To optimize for cost, latency, and data privacy, agents must prefer servers in this order:
+To optimize for cost, latency, and centralization, agents follow this tier system:
 
-1.  **Local** (`localhost`, Docker): Lowest latency, free, full data access.
-2.  **LAN / Tailscale** (VPS, HomeLab): Low latency, secure, persistent storage.
-3.  **Cloud** (GCP Cloud Run): Higher latency, cost per request, strictly **stateless** and **text-only**.
+| Tier                   | Transport | Location                           | Purpose                                                                                         |
+| ---------------------- | --------- | ---------------------------------- | ----------------------------------------------------------------------------------------------- |
+| **Tier 1: Local**      | stdio     | Same machine (`localhost`, Docker) | Lowest latency, file/system access (git, filesystem, docker)                                    |
+| **Tier 2: Remote VPS** | SSE/HTTP  | Tailscale VPS (VPS1/VPS2)          | Shared APIs, persistent state, centralized credentials (github, perplexity, cloudflare, memory) |
+| **Tier 3: Cloud GCP**  | SSE/HTTP  | Cloud Run                          | Stateless, text-only, cost-optimized (brave-search, context7, mcp-time)                         |
+
+**See Also**: [Remote MCP Hub Documentation](docs/MCP_INDEX.md#4-remote-mcp-hub-docker-on-vps)
 
 ### Resource Constraints
 

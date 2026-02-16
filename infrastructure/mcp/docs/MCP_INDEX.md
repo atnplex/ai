@@ -61,13 +61,56 @@
 
 ---
 
-## Deployment Priority
+### 4. Remote MCP Hub (Docker on VPS)
 
-Agents should prefer MCP servers in this order:
+**Use Case**: Centralized MCP services accessible from any client via Tailscale, enabling zero local dependencies.
 
-1. **Local** (`localhost`, Docker) - Lowest latency, free, full data access
-2. **LAN/Tailscale** (VPS, HomeLab) - Low latency, secure, persistent storage
-3. **Cloud** (GCP Cloud Run) - Higher latency, cost per request, **text-only**
+| Component               | Location                                                                   |
+| ----------------------- | -------------------------------------------------------------------------- |
+| **Docker Compose**      | [infrastructure/mcp/docker-compose.yml](../docker-compose.yml)             |
+| **Architecture Vision** | [ai/docs/headless_architecture.md](../../ai/docs/headless_architecture.md) |
+| **Deploy Script**       | [infrastructure/mcp/deploy_hub.sh](../deploy_hub.sh)                       |
+| **Secrets Template**    | [infrastructure/mcp/.env.template](../.env.template)                       |
+
+**Quick Start**:
+
+```bash
+# 1. Configure secrets
+cp infrastructure/mcp/.env.template infrastructure/mcp/.env
+# Edit .env with your API keys
+
+# 2. Deploy to VPS
+cd infrastructure/mcp
+./deploy_hub.sh vps1  # or vps2
+
+# 3. Services will be available at http://<tailscale-ip>:900X/sse
+```
+
+**Services Included**:
+
+- GitHub (Port 9001) - PR management, file operations
+- Perplexity (Port 9002) - AI-powered web search
+- Cloudflare (Port 9003) - DNS, tunnels, workers
+- Memory (Port 9004) - Knowledge graph persistence
+- Playwright (Port 9005) - Browser automation
+
+---
+
+## Deployment Priority (Hybrid Strategy)
+
+Agents should prefer MCP servers following this tier system:
+
+| Tier                   | Transport | Location      | Examples                                       | When to Use                                         |
+| ---------------------- | --------- | ------------- | ---------------------------------------------- | --------------------------------------------------- |
+| **Tier 1: Local**      | stdio     | Same machine  | `mcp-git`, `mcp-filesystem`, `mcp-docker`      | Lowest latency, requires file/daemon access         |
+| **Tier 2: Remote VPS** | SSE/HTTP  | Tailscale VPS | `github`, `perplexity`, `cloudflare`, `memory` | Shared credentials, persistent storage, centralized |
+| **Tier 3: Cloud GCP**  | SSE/HTTP  | Cloud Run     | `brave-search`, `context7`, `mcp-time`         | Stateless, text-only, cost-optimized                |
+
+**Rationale**:
+
+- **Local (Tier 1)** - Low-latency operations requiring direct file/system access
+- **Remote VPS (Tier 2)** - Shared APIs and persistent state (reduces credential duplication across clients)
+- **Cloud (Tier 3)** - Simple, stateless tools fitting free tier constraints
 
 ---
 
