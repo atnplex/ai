@@ -30,16 +30,30 @@ COPY . .
 CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8080"]
 ```
 
-### 2.2 Deployment
+### 2.2 Deployment (One-Liner)
 
-Deploy via `infrastructure` scripts or manually:
+Use the automated deploy script:
+
+```bash
+./setup/deploy_to_gcp.sh
+```
+
+This script will prompt you for:
+
+1.  **Service Name**: e.g., `mcp-server`
+2.  **Security Mode**:
+    - **Private (Internal Only)**: Uses `--ingress=internal`. Access is restricted to VPC resources (e.g., VPN/Tailscale subnet router). **Recommended** for internal tools. No public Auth required.
+    - **Public (IAM Auth)**: Uses `--ingress=all` + `--no-allow-unauthenticated`. Requires IAM token.
+
+Manual command if needed:
 
 ```bash
 gcloud run deploy mcp-myserver \
   --source . \
   --platform managed \
   --region us-central1 \
-  --no-allow-unauthenticated \  # SECURITY: Require IAM Auth
+  --ingress=internal \          # SECURITY: Private Network Only
+  --no-allow-unauthenticated \  # SECURITY: Double-lock
   --memory 512Mi \              # RESOURCE: Text-only constraint
   --cpu 1                       # RESOURCE: Low CPU
 ```

@@ -34,10 +34,16 @@ To minimize overhead and token usage, we do NOT load all tools for every agent.
 - `servers/`: Placeholder for custom server implementations.
 - `docs/`: Deployment guides (see `MCP_DEPLOYMENT.md`).
 
-## 3. Quick Start
+## 3. Quick Start (One-Liner)
 
-Run the automated setup to configure your environment:
+**Setup:**
 
 ```bash
 ./setup/easy_mcp_setup.sh
+```
+
+**Deploy to GCP:**
+
+```bash
+./setup/deploy_to_gcp.sh
 ```
