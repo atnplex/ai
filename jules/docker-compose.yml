@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  jules-api:
+    build: .
+    container_name: jules-api
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
+      - jules-db:/app
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  jules-worker:
+    build: .
+    container_name: jules-worker
+    command: ["python", "-m", "worker.daemon"]
+    volumes:
+      - /tmp/jules-work:/tmp/jules-work
+      - ~/.config/gh:/root/.config/gh:ro
+    environment:
+      - JULES_API_URL=http://jules-api:8080
+      - JULES_NODE_ID=${HOSTNAME:-local}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+    depends_on:
+      - jules-api
+    restart: unless-stopped
+
+  redis:
+    image: valkey/valkey:7-alpine
+    container_name: jules-redis
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
+volumes:
+  jules-db:
+  redis-data:

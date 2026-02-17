@@ -1,0 +1,21 @@
+# Jules Data
+*.db
+*.db-journal
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+
+# Work directories
+/data/
+/tmp/
