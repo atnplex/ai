@@ -5,7 +5,7 @@ Single Source of Truth (SSOT) for AI agent coordination, protocols, and configur
 ## Repository Structure
 
 | Directory                          | Purpose                                              |
-|-----------------------------------|------------------------------------------------------|
+| ---------------------------------- | ---------------------------------------------------- |
 | [.comet-browser/](.comet-browser/) | Perplexity Multi-Agent Coordination System           |
 | [rules/](rules/)                   | Operational rules (MCP management, state validation) |
 | [config/](config/)                 | MCP server registry                                  |
