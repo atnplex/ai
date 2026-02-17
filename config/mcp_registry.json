@@ -1,4 +1,6 @@
 {
+  "$schema": "MCP Server Registry — Single Source of Truth for all agent MCP configurations",
+  "lastUpdated": "2026-02-17T17:55:00Z",
   "mcpServers": {
     "github-mcp-server": {
       "command": "/atn/ai/scripts/mcp_with_secrets.sh",
@@ -10,18 +12,39 @@
         "-e",
         "GITHUB_PERSONAL_ACCESS_TOKEN",
         "ghcr.io/github/github-mcp-server"
-      ]
+      ],
+      "meta": {
+        "status": "active",
+        "impact": "high",
+        "hosting": "local-stdio",
+        "domain": ["code", "git", "repos", "issues", "prs"],
+        "profileTags": ["core-dev", "infra-admin", "research"]
+      }
     },
     "perplexity-ask": {
       "command": "/atn/ai/scripts/mcp_with_secrets.sh",
-      "args": ["npx", "-y", "server-perplexity-ask"]
+      "args": ["npx", "-y", "server-perplexity-ask"],
+      "meta": {
+        "status": "active",
+        "impact": "high",
+        "hosting": "local-stdio",
+        "domain": ["research", "web-search", "documentation"],
+        "profileTags": ["core-dev", "research"]
+      }
     },
     "mcp-git": {
       "command": "/usr/bin/node",
       "args": [
         "/atn/.gemini/antigravity/mcp/node_modules/@mseep/git-mcp-server/dist/index.js",
         "/atn"
-      ]
+      ],
+      "meta": {
+        "status": "active",
+        "impact": "high",
+        "hosting": "local-stdio",
+        "domain": ["git", "version-control"],
+        "profileTags": ["core-dev"]
+      }
     },
     "mcp-filesystem": {
       "command": "/usr/bin/node",
@@ -29,27 +52,69 @@
         "/atn/.gemini/antigravity/mcp/node_modules/@modelcontextprotocol/server-filesystem/dist/index.js",
         "/home/alex",
         "/atn"
-      ]
+      ],
+      "meta": {
+        "status": "active",
+        "impact": "high",
+        "hosting": "local-stdio",
+        "domain": ["files", "filesystem", "directories"],
+        "profileTags": ["core-dev", "infra-admin"]
+      }
     },
     "mcp-fetch": {
       "command": "docker",
-      "args": ["run", "-i", "--rm", "mcp/fetch"]
+      "args": ["run", "-i", "--rm", "mcp/fetch"],
+      "meta": {
+        "status": "active",
+        "impact": "medium",
+        "hosting": "local-stdio",
+        "domain": ["http", "api", "web-content"],
+        "profileTags": ["core-dev", "research"]
+      }
     },
     "mcp-playwright": {
       "command": "docker",
-      "args": ["run", "-i", "--rm", "mcp/playwright"]
+      "args": ["run", "-i", "--rm", "mcp/playwright"],
+      "meta": {
+        "status": "active",
+        "impact": "medium",
+        "hosting": "local-stdio",
+        "domain": ["browser", "testing", "scraping"],
+        "profileTags": ["core-dev"]
+      }
     },
     "mcp-memory": {
       "command": "docker",
-      "args": ["run", "-i", "--rm", "-v", "mcp-memory:/data", "mcp/memory"]
+      "args": ["run", "-i", "--rm", "-v", "mcp-memory:/data", "mcp/memory"],
+      "meta": {
+        "status": "active",
+        "impact": "high",
+        "hosting": "local-stdio",
+        "domain": ["knowledge-graph", "persistence", "memory"],
+        "profileTags": ["core-dev", "research"]
+      }
     },
     "mcp-sequentialthinking": {
       "command": "docker",
-      "args": ["run", "-i", "--rm", "mcp/sequentialthinking"]
+      "args": ["run", "-i", "--rm", "mcp/sequentialthinking"],
+      "meta": {
+        "status": "active",
+        "impact": "high",
+        "hosting": "local-stdio",
+        "domain": ["reasoning", "planning", "analysis"],
+        "profileTags": ["core-dev", "research"]
+      }
     },
     "mcp-time": {
       "command": "docker",
-      "args": ["run", "-i", "--rm", "mcp/time"]
+      "args": ["run", "-i", "--rm", "mcp/time"],
+      "meta": {
+        "status": "active",
+        "impact": "low",
+        "hosting": "local-stdio",
+        "domain": ["time", "timezone"],
+        "profileTags": ["core-dev"]
+      }
     },
     "cloudflare": {
       "command": "/atn/ai/scripts/mcp_with_secrets.sh",
@@ -57,23 +122,124 @@
         "/usr/bin/node",
         "/atn/.gemini/antigravity/mcp/node_modules/@cloudflare/mcp-server-cloudflare/dist/index.js",
         "run"
-      ]
+      ],
+      "meta": {
+        "status": "active",
+        "impact": "high",
+        "hosting": "local-stdio",
+        "domain": ["dns", "tunnels", "workers", "ingress"],
+        "profileTags": ["infra-admin"]
+      }
     },
     "context7": {
       "command": "/usr/bin/node",
       "args": [
         "/atn/.gemini/antigravity/mcp/node_modules/@upstash/context7-mcp/dist/index.js"
-      ]
+      ],
+      "meta": {
+        "status": "active",
+        "impact": "medium",
+        "hosting": "local-stdio",
+        "domain": ["documentation", "library-context"],
+        "profileTags": ["core-dev"]
+      }
     },
     "mcp-docker": {
       "command": "/usr/bin/node",
       "args": [
         "/atn/.gemini/antigravity/mcp/node_modules/mcp-server-docker/dist/index.js"
-      ]
+      ],
+      "meta": {
+        "status": "active",
+        "impact": "high",
+        "hosting": "local-stdio",
+        "domain": ["docker", "containers", "images"],
+        "profileTags": ["infra-admin", "core-dev"]
+      }
     },
-    "brave-search": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-brave-search"]
+    "ssh-mcp-gateway": {
+      "remoteUrl": "https://mcp-ssh-gateway-821140081224.us-west1.run.app",
+      "localProxy": "C:/Antigravity/.agent-state/deploy/ssh_mcp_proxy.py",
+      "meta": {
+        "status": "active",
+        "impact": "high",
+        "hosting": "cloud-run",
+        "domain": ["ssh", "linux", "remote-exec", "ubuntu", "debian"],
+        "profileTags": ["infra-admin"],
+        "gcpProject": "atnplex-mcp-host",
+        "gcpRegion": "us-west1",
+        "serviceName": "mcp-ssh-gateway",
+        "revision": "mcp-ssh-gateway-00001-wr4",
+        "tools": ["ssh_exec", "ssh_upload", "ssh_download"],
+        "deployedAt": "2026-02-15T07:00:00Z"
+      }
+    },
+    "bitwarden-mcp": {
+      "remoteUrl": "PENDING_DEPLOYMENT",
+      "meta": {
+        "status": "planned",
+        "impact": "high",
+        "hosting": "cloud-run",
+        "domain": ["secrets", "credentials", "vault"],
+        "profileTags": ["infra-admin", "core-dev"],
+        "gcpProject": "atnplex-mcp-host",
+        "notes": "Official Bitwarden MCP server — deploy to Cloud Run"
+      }
+    },
+    "tailscale-mcp": {
+      "remoteUrl": "PENDING_DEPLOYMENT",
+      "meta": {
+        "status": "planned",
+        "impact": "high",
+        "hosting": "cloud-run",
+        "domain": ["networking", "vpn", "tailscale", "devices"],
+        "profileTags": ["infra-admin"],
+        "notes": "Tailscale MCP for device list, ACLs, routes — deploy to Cloud Run"
+      }
+    }
+  },
+  "profiles": {
+    "core-dev": {
+      "description": "Code evaluation, repo consolidation, research, and documentation",
+      "servers": [
+        "github-mcp-server",
+        "perplexity-ask",
+        "mcp-git",
+        "mcp-filesystem",
+        "mcp-fetch",
+        "mcp-playwright",
+        "mcp-memory",
+        "mcp-sequentialthinking",
+        "mcp-time",
+        "context7",
+        "mcp-docker"
+      ],
+      "maxTools": 60
+    },
+    "infra-admin": {
+      "description": "Homelab, networking, secrets, and server management",
+      "servers": [
+        "github-mcp-server",
+        "ssh-mcp-gateway",
+        "cloudflare",
+        "mcp-docker",
+        "mcp-filesystem",
+        "bitwarden-mcp",
+        "tailscale-mcp"
+      ],
+      "maxTools": 60
+    },
+    "research": {
+      "description": "Best-practice research, documentation discovery, code review",
+      "servers": [
+        "github-mcp-server",
+        "perplexity-ask",
+        "mcp-sequentialthinking",
+        "mcp-memory",
+        "mcp-fetch",
+        "context7"
+      ],
+      "maxTools": 40
     }
   },
   "defaults": [
@@ -87,7 +253,6 @@
     "mcp-time",
     "cloudflare",
     "context7",
-    "mcp-docker",
-    "brave-search"
+    "mcp-docker"
   ]
 }
