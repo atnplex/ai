@@ -1,4 +1,5 @@
 import express from 'express';
+import fetch from 'node-fetch';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
 
@@ -28,15 +29,69 @@ const server = new Server(
   },
   {
     capabilities: {
-      tools: {},
+      tools: {
+        search: {
+          description: "Perform a deep search across the web via Perplexity Pro (rotates keys).",
+          inputSchema: {
+            type: "object",
+            properties: {
+              query: { type: "string", description: "The search query" }
+            },
+            required: ["query"]
+          }
+        }
+      },
     },
   }
 );
 
-server.setRequestHandler(async (request) => {
-  // Logic to proxy search requests to Perplexity with rotated keys
-  // placeholder for specific tool implementation
-  throw new Error("Method not implemented.");
+// Type guards for request parameters
+interface ToolCallParams {
+  name: string;
+  arguments?: {
+    query?: string;
+  };
+}
+
+server.setRequestHandler(async (request: any) => {
+  if (request.method === "tools/call") {
+    const params = request.params as ToolCallParams;
+    if (params.name === "search") {
+      const query = params.arguments?.query;
+      if (!query) throw new Error("Query is required.");
+
+      const key = getRotatedKey();
+      if (!key) throw new Error("No Perplexity API keys configured.");
+
+      console.log(`Searching for: ${query} using key index ${currentKeyIndex}`);
+
+      const response = await fetch("https://api.perplexity.ai/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${key}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "sonar-reasoning-pro",
+          messages: [{ role: "user", content: query }]
+        })
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        return {
+          content: [{ type: "text", text: `Search failed with status ${response.status}: ${error}` }],
+          isError: true
+        };
+      }
+
+      const data: any = await response.json();
+      return {
+        content: [{ type: "text", text: data.choices[0].message.content }]
+      };
+    }
+  }
+  throw new Error(`Method ${request.method} not implemented.`);
 });
 
 app.get("/sse", async (req, res) => {
@@ -46,6 +101,7 @@ app.get("/sse", async (req, res) => {
 
 app.post("/message", async (req, res) => {
   // Handle incoming MCP messages
+  // This would typically involve delegating to the server's internal mechanisms
 });
 
 app.listen(port, () => {
